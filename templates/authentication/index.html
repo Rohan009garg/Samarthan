@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6b73ff, #000dff);
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px);
+        }
+        .button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    {% endfor %}
+
+    <h3>Welcome to GeeksForGeeks!</h3>
+
+
+    {% if user.is_authenticated %}
+    <h3>Hello {{fname}}!</h3>
+    <h4>You're successfully logged in.</h4>
+    <button type="submit"><a href="/signout">SignOut</a></button>
+    {% else %}
+    <button type="submit"><a href="/signup">SignUp</a></button>
+    <br/>
+    <br/>
+    <button type="submit"><a href="/signin">SignIn</a></button>
+    {% endif %} -->
+
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show "roles ="alert">
+        <strong> Message: </strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close" >
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    <div class="container">
+        <p>Welcome to our NGO's authentication page. Please choose an option below:</p>
+        {% if user.is_authenticated %}
+        <h3>hello {{fname}}</h3>
+        <p>You're succesfully logged in</p>
+        <div class="button-container">
+            <button type="submit" class="button" ><a href="/signout">Sign Out</a></button>
+        </div>
+        {% else %}
+        <div class="button-container">
+            <button type="submit" class="button" ><a href="/signin">SignIn</a> </button>
+            <button type="submit" class="button" ><a href="/signup">SignUp</a> </button>
+        </div>
+    </div>
+    {% endif %}
+    <!-- <script>
+        function signOut() {
+            // Clear the authentication token from local storage
+            localStorage.removeItem('token');
+            alert('You have been signed out.');
+            // Optionally redirect to a different page
+            location.href = 'index.html';
+        }
+    </script> -->
+</body>
+</html>
