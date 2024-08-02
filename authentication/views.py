@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
+from Samarthan import settings
+from django.core.mail import send_mail
+
 # Create your views here.
 def home(request):
     # return HttpResponse("Hello, world!")
@@ -18,6 +21,24 @@ def signup(request):
         password = request.POST['password']
         cpassword = request.POST['confirm-password']
 
+        if User.objects.filter(username=username):
+            messages.error(request,"Username already exists! Please try some other username.")
+            return redirect('home')
+        
+        if User.objects.filter(email=email):
+            messages.error(request,"Email already exists! Please try some other email.")
+            return redirect('home')
+        
+        if len(username)>15:
+            messages.error(request,"Username must be under 15 characters")
+
+        if password != cpassword:
+            messages.error(request,"Passwords didn't match")
+
+        if not username.isalphanumeric:
+            messages.error(request,"Username should only contain letters and numbers")
+            return redirect('home')
+
         #ab ham register krenge use
         myuser = User.objects.create_user(username,email,password)
         myuser.first_name = fname
@@ -25,7 +46,20 @@ def signup(request):
 
         myuser.save()
         #ab hum message dikhayenge ki succesfull register hogya
-        messages.success(request,"Your account has been successfully created")
+        messages.success(request,"Your account has been successfully created, we have also sent you an confirmstion email,please confirm your account")
+
+        #welcome email
+        subject= "Welcome to Samarthan Login"
+        message = "Hello " + myuser.first_name + "!" + "\n" + "Welcome to Samarthan \n Thank you for visiting our website. \n We have also sent you a confirmation email, please confirm your email address in order to activate you account. \n\n Thanking you \n Rohan Garg"
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [myuser.email] #kisko email jayega
+        send_mail(subject,message,from_email,to_list,fail_silently=True)
+
+
+
+
+
+
         return redirect('signin')
 
     return render(request,"authentication/signup.html")
